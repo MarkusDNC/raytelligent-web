@@ -12,12 +12,14 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as Security;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class User
  * @package AppBundle\Entity
  * @ORM\Table("users")
  * @ORM\Entity
+ * @UniqueEntity("email")
  */
 
 class User implements AdvancedUserInterface
@@ -54,7 +56,6 @@ class User implements AdvancedUserInterface
      * @Assert\Length(max="255", maxMessage="Email address is too long")
      * @Assert\Email(message="Invalid email address")
      * @Assert\NotBlank(message="Field can not be left blank")
-     *
      * @var string
      */
     protected $email;

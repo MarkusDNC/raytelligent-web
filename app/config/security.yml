@@ -6,8 +6,7 @@ security:
         AppBundle\Entity\User: bcrypt
 
     role_hierarchy:
-        ROLE__SONATA_ADMIN: ROLE_USER
-        ROLE_ADMIN: ROLE_SONATA_ADMIN
+        ROLE_ADMIN: ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
@@ -29,4 +28,5 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/dashboard/, role: ROLE_USER }
+        #- { path: /account/, role: IS_AUTHENTICATED_FULLY }
+        - { path: /account/, role: IS_AUTHENTICATED_ANONYMOUSLY }
