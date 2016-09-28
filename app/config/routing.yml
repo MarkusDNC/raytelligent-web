@@ -1,3 +1,3 @@
-app:
-    resource: "@AppBundle/Controller/"
+rt_public:
+    resource: "@AppBundle/Controller/Common"
     type:     annotation
