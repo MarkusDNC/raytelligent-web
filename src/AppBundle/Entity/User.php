@@ -9,7 +9,7 @@
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM AS ORM;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * Class User
