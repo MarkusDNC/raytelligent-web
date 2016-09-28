@@ -14,7 +14,7 @@ use Doctrine\ORM AS ORM;
 /**
  * Class User
  * @package AppBundle\Entity
- * @ORM\Table("user")
+ * @ORM\Table("users")
  * @ORM\Entity
  */
 
