@@ -1,54 +1,66 @@
 {% extends '::layout.html.twig' %}
-
+{% block title %}Register with Raytelligence{% endblock %}
+{% block bodyClass %}<body class="login">{% endblock %}
 {% block body %}
-    <div class="row elevation-container">
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 elevation-form">
-            {{ form_start(form, {'method': 'post', 'action': path('register'), 'attr': {'class': 'registration-page', 'novalidate' : 'novalidate'}}) }}
-            <h2>Register</h2>
+        <div>
+            <div class="login_wrapper">
+                <div class="form login_form">
+                    <section class="login_content">
+                        {{ form_start(form, {'method': 'post', 'action': path('register'), 'attr': {'class': 'registration-page', 'novalidate' : 'novalidate'}}) }}
+                            <h1>Create Account</h1>
+                            {% if not form.vars.valid %}
+                                <div class="alert alert-danger">
+                                    <ul class="list-unstyled">
+                                        <li><span class="glyphicon glyphicon-exclamation-sign"></span> Correct the errors</li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <div>
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.plainPassword.first) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.plainPassword.second) }}
+                                </div>
+                            </div>
+                            <hr class="featurette-divider">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.firstName) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.lastName) }}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form_row(form.address1) }}
+                                {{ form_row(form.address2) }}
+                                {{ form_row(form.city) }}
+                                {{ form_row(form.postCode) }}
+                                {{ form_row(form.country) }}
 
-            {% if not form.vars.valid %}
-                <div class="alert alert-danger">
-                    <ul class="list-unstyled">
-                        <li><span class="glyphicon glyphicon-exclamation-sign"></span> Correct the errors</li>
-                    </ul>
-                </div>
-            {% endif %}
+                                <hr>
+                                <button id="register-button" type="submit" class="btn btn-success">
+                                    SUBMIT
+                                </button>
+                            </div>
 
-            {{ form_row(form.email) }}
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.plainPassword.first) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.plainPassword.second) }}
+                            <div class="clearfix"></div>
+
+                            <div class="separator">
+                                <p class="change_link">Already a member ?
+                                    <a href="{{ path('account_login') }}"> Log in </a>
+                                </p>
+
+                                <div class="clearfix"></div>
+                                <br />
+                            </div>
+                        {{ form_end(form) }}
+                    </section>
                 </div>
             </div>
-
-            <hr class="featurette-divider">
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.firstName) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.lastName) }}
-                    </div>
-                </div>
-            </div>
-            <hr class="featurette-divider">
-
-            {{ form_row(form.address1) }}
-            {{ form_row(form.address2) }}
-            {{ form_row(form.city) }}
-            {{ form_row(form.postCode) }}
-            {{ form_row(form.country) }}
-
-            <hr>
-                <button id="register-button" type="submit" class="btn">
-                    SUBMIT
-                </button>
-            {{ form_end(form) }}
         </div>
-    </div>
 {% endblock %}
