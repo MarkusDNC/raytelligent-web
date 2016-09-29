@@ -29,4 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         owner: "vagrant",
         group: "www-data",
         mount_options: ["dmode=775,fmode=664"]
+    config.vm.synced_folder "./var/cache", "/vagrant/var",
+        owner: 'vagrant',
+        group: 'www-data',
+        mount_options: ["dmode=775","fmode=666"]
 end
