@@ -9,7 +9,7 @@
         <div class="x_content">
             {% if sensors is empty or sensors is null %}
                 <div class='text-center'><strong> No sensors found </strong> </div>
-            {% endif %}
+            {% else %}
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -28,7 +28,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-
+            {% endif %}
         </div>
     </div>
 {% endblock %}
