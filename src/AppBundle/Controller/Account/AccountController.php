@@ -12,6 +12,7 @@ class AccountController extends Controller
 {
     /**
      * @Route("/login", name="account_login")
+     * @Route("/")
      * @param Request $request
      * @return Response
      */
