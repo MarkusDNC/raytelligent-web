@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -151,11 +152,18 @@ class User implements AdvancedUserInterface
     protected $country;
 
     /**
+     * @var Sensor[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Sensor", mappedBy="user")
+     */
+    private $sensors;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->sensors = new ArrayCollection();
     }
 
     /**
@@ -382,6 +390,36 @@ class User implements AdvancedUserInterface
     public function setCountry($country)
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Sensor[]
+     */
+    public function getSensors()
+    {
+        return $this->sensors;
+    }
+
+    /**
+     * @param Sensor[] $sensors
+     * @return User
+     */
+    public function setSensors($sensors)
+    {
+        $this->sensors = $sensors;
+
+        return $this;
+    }
+
+    /**
+     * @param Sensor $sensor
+     * @return User
+     */
+    public function addSensor(Sensor $sensor)
+    {
+        $this->sensors[] = $sensor;
 
         return $this;
     }

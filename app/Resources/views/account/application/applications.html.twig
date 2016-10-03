@@ -1,0 +1,37 @@
+{% extends ':account:base.html.twig' %}
+{% block body %}
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Applications</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {% if applications is empty or applications is null %}
+                <div class='text-center'><strong> No applications found </strong> </div>
+            {% else %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Location</th>
+                    <th>Remove application</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.id }}</td>
+                    <td>{{ application.location }}</td>
+                    <td class="text-center">
+                        <a id="remove-sensor" class="btn btn-warning btn-xs" href='{{ path('account_remove_application', {'id': application.id})}}'><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -8,3 +8,5 @@ services:
           class: AppBundle\Service\UserManager
           arguments:
               - '@security.encoder_factory'
+      rt.sensor.manager:
+              class: AppBundle\Service\SensorManager
