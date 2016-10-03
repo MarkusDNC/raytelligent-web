@@ -149,5 +149,41 @@ class AccountController extends Controller
 
         return $parameters;
     }
+
+    /**
+     * @Route("/account/applications", name="account_applications_view")
+     * @Template(":account/application:applications.html.twig")
+     * @param Request $request
+     * @return array
+     */
+    public function listApplicationsAction(Request $request)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $applications = $em->getRepository(Application::class)->getApplicationsBelongingTo($user);
+
+        return[
+            'applications' => $applications,
+        ];
+    }
+
+    /**
+     * @Route("/account/remove-application/{id}", name="account_remove_application")
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function removeApplicationAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $application = $em->getRepository(Application::class)->findOneBy([
+            'id' => $id,
+        ]);
+        if ($application !== null) {
+            $em->remove($application);
+            $em->flush();
+        }
+        return $this->redirectToRoute('account_applications_view');
+    }
 }
 

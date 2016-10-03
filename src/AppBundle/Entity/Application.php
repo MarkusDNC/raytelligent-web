@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Application
  * @package AppBundle\Entity
  * @ORM\Table(name="applications")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ApplicationRepository")
  * @Vich\Uploadable
  */
 class Application
