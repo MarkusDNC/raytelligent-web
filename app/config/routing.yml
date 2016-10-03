@@ -8,3 +8,6 @@ rt_account:
 
 account_login_check:
     path: /account/login_check
+
+account_logout:
+    path: /logout
