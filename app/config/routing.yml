@@ -4,3 +4,10 @@ rt_public:
 rt_account:
     resource: "@AppBundle/Controller/Account"
     type:     annotation
+
+
+account_login_check:
+    path: /account/login_check
+
+account_logout:
+    path: /logout
