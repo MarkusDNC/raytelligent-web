@@ -15,6 +15,9 @@ class SensorType extends AbstractType
         $builder->add('id', TextType::class, [
             'label' => 'Sensor ID',
             'required' => true,
+        ])->add('name', TextType::class, [
+                'label' => 'Name',
+                'required' => true,
         ]);
     }
 

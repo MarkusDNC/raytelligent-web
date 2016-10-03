@@ -29,6 +29,14 @@ class Sensor
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Field can not be left blank")
+     * @Assert\Length(max="50", maxMessage="The name is too long")
+     */
+    private $name;
+
+    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="sensors")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -50,6 +58,25 @@ class Sensor
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Sensor
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
         return $this;
     }
