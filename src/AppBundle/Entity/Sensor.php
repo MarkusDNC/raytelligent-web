@@ -29,6 +29,13 @@ class Sensor
     private $id;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="sensors")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
      * @return string
      */
     public function getId()
@@ -43,6 +50,25 @@ class Sensor
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return Sensor
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
 
         return $this;
     }

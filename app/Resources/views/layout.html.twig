@@ -18,17 +18,17 @@
 
 </head>
 {% block bodyClass %}<body>{% endblock %}
-    {% block body %}{% endblock %}
+        {% block body %}{% endblock %}
 
-{% block javascripts %}
-    {% javascripts
-        'assets/vendor/jquery/dist/jquery.min.js'
-        'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
-        'assets/vendor/fastclick/lib/fastclick.js'
-        'assets/vendor/gentelella/build/js/custom.min.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock %}
-</body>
+        {% block javascripts %}
+            {% javascripts
+                'assets/vendor/jquery/dist/jquery.min.js'
+                'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
+                'assets/vendor/fastclick/lib/fastclick.js'
+                'assets/vendor/gentelella/build/js/custom.min.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+    </body>
 </html>

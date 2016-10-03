@@ -1,0 +1,27 @@
+{% extends ':account:base.html.twig' %}
+{% block body %}
+{{ form_start(form, {'method': 'post', 'action': url, 'attr': {'novalidate' : 'novalidate'}}) }}
+<div class="form-dialog">
+    <div class="form-content">
+        <div class="form-header">
+            <h4 class="form-title"><strong>{{ form_title }}</strong></h4>
+        </div>
+        <div class="form-body">
+            {% if message is defined and message is not null%}
+                <div class="row">
+                    {% if status == 'error' %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% else %}
+                        <div class="alert alert-{{ status }}">{{ message }}</div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if status != 'success' and form is not null%}
+                {{form(form)}}
+            {% endif %}
+        </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
