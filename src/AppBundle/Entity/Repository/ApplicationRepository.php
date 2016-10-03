@@ -17,7 +17,7 @@ class ApplicationRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('a');
         $qb->select('a')
-            ->innerJoin('a.sensor', 's')
+            ->innerJoin('a.sensors', 's')
             ->where('s.user = :user')
             ->setParameter('user', $user);
         return $qb->getQuery()->getResult();

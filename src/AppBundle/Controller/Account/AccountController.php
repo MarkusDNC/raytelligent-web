@@ -123,7 +123,7 @@ class AccountController extends Controller
         $application = new Application();
         $em = $this->getDoctrine()->getManager();
         $sm = $this->get('rt.sensor.manager');
-        $sensors = $em->getRepository(Sensor::class)->getSensorsBelongingTo($user);
+        $sensors = $em->getRepository(Sensor::class)->getApplicableSensorsBelongingTo($user);
         $builder = $this->get('form.factory')->createBuilder(ApplicationType::class, $application, [
             'sensors' => $sensors,
         ]);
@@ -162,9 +162,7 @@ class AccountController extends Controller
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $applications = $em->getRepository(Sensor::class)->getApplicationsBelongingTo($user);
-        dump($applications);
-        exit;
+        $applications = $em->getRepository(Application::class)->getApplicationsBelongingTo($user);
         return[
             'applications' => $applications,
         ];
