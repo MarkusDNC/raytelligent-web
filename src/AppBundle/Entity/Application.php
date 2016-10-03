@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -40,12 +41,11 @@ class Application
     private $location;
 
     /**
-     * @var Sensor
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Sensor", inversedBy="application")
-     * @ORM\JoinColumn(name="sensor_id", referencedColumnName="id")
+     * @var Sensor[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Sensor", mappedBy="application", cascade={"persist"})
      * @Assert\NotBlank(message="Field can not be left blank")
      */
-    private $sensor;
+    private $sensors;
 
     /**
      * @var File
@@ -60,6 +60,44 @@ class Application
      * @ORM\Column(name="file_name", type="string", length=255)
      */
     private $fileName;
+
+    /**
+     * Application constructor.
+     */
+    public function __construct()
+    {
+        $this->sensors = new ArrayCollection();
+    }
+
+    /**
+     * @return Sensor[]
+     */
+    public function getSensors()
+    {
+        return $this->sensors;
+    }
+
+    /**
+     * @param Sensor[] $sensors
+     * @return Application
+     */
+    public function setSensors($sensors)
+    {
+        $this->sensors = $sensors;
+
+        return $this;
+    }
+
+    /**
+     * @param Sensor $sensor
+     * @return Application
+     */
+    public function addSensor(Sensor $sensor)
+    {
+        $this->sensors[] = $sensor;
+
+        return $this;
+    }
 
     /**
      * @return int
@@ -95,25 +133,6 @@ class Application
     public function setLocation($location)
     {
         $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * @return Sensor
-     */
-    public function getSensor()
-    {
-        return $this->sensor;
-    }
-
-    /**
-     * @param Sensor $sensor
-     * @return Application
-     */
-    public function setSensor($sensor)
-    {
-        $this->sensor = $sensor;
 
         return $this;
     }

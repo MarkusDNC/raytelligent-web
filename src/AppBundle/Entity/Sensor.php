@@ -45,7 +45,8 @@ class Sensor
 
     /**
      * @var Application
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Application", mappedBy="sensor")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Application", inversedBy="sensors", cascade={"persist"})
+     * @ORM\JoinColumn(name="application_id", referencedColumnName="id", nullable=true)
      */
     private $application;
 
@@ -102,6 +103,25 @@ class Sensor
     public function setUser($user)
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
+    /**
+     * @param Application $application
+     * @return Sensor
+     */
+    public function setApplication($application)
+    {
+        $this->application = $application;
 
         return $this;
     }

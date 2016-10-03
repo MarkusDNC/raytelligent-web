@@ -122,8 +122,8 @@ class AccountController extends Controller
         $user = $this->getUser();
         $application = new Application();
         $em = $this->getDoctrine()->getManager();
+        $sm = $this->get('rt.sensor.manager');
         $sensors = $em->getRepository(Sensor::class)->getSensorsBelongingTo($user);
-
         $builder = $this->get('form.factory')->createBuilder(ApplicationType::class, $application, [
             'sensors' => $sensors,
         ]);
@@ -132,6 +132,8 @@ class AccountController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $sensors = $application->getSensors();
+                $sm->updateSensors($sensors, $application);
                 $em->persist($application);
                 $em->flush();
                 $message = 'Application added successfully';
@@ -160,8 +162,9 @@ class AccountController extends Controller
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $applications = $em->getRepository(Application::class)->getApplicationsBelongingTo($user);
-
+        $applications = $em->getRepository(Sensor::class)->getApplicationsBelongingTo($user);
+        dump($applications);
+        exit;
         return[
             'applications' => $applications,
         ];

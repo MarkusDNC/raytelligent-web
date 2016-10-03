@@ -24,4 +24,14 @@ class SensorRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getApplicationsBelongingTo(User $user)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('s')
+            ->innerJoin('s.application', 'a')
+            ->where('s.user = :user')
+            ->setParameter('user', $user);
+        return $qb->getQuery()->getResult();
+    }
+
 }

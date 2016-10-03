@@ -15,11 +15,12 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $sensors = $options['sensors'];
-        $builder->add('sensor', EntityType::class, [
+        $builder->add('sensors', EntityType::class, [
             'class' => 'AppBundle\Entity\Sensor',
-            'label' => 'Sensor',
+            'label' => 'Sensor(s)',
             'choices' => $sensors,
             'choice_label' => 'name',
+            'multiple' => true,
             'required' =>true,
         ])->add('location', TextType::class, [
             'label' => 'Location',
