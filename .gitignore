@@ -19,3 +19,4 @@
 Homestead.yaml
 .DS_Store
 /web/assets/vendor/
+/web/temp

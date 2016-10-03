@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Sensor
  * @package AppBundle\Entity
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SensorRepository")
  * @ORM\Table(name="sensors")
  */
 class Sensor
@@ -42,6 +42,12 @@ class Sensor
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * @var Application
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Application", mappedBy="sensor")
+     */
+    private $application;
 
     /**
      * @return string

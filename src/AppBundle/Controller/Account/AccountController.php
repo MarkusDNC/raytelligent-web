@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller\Account;
 
+use AppBundle\Entity\Application;
 use AppBundle\Entity\Sensor;
+use AppBundle\Form\ApplicationType;
 use AppBundle\Form\SensorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -38,7 +40,7 @@ class AccountController extends Controller
     /**
      * @param Request $request
      * @Route("/account/dashboard/add-sensor", name="account_add_sensor")
-     * @Template(":account/sensor:new_sensor.html.twig")
+     * @Template(":account/common:form_view.html.twig")
      * @return array
      */
     public function accountAddSensorAction(Request $request)
@@ -106,6 +108,46 @@ class AccountController extends Controller
             $em->flush();
         }
         return $this->redirectToRoute('account_sensors_view');
+    }
+
+
+    /**
+     * @Route("/account/add-application", name="account_add_application")
+     * @Template(":account/common:form_view.html.twig")
+     * @param Request $request
+     * @return array
+     */
+    public function addApplicationAction(Request $request)
+    {
+        $user = $this->getUser();
+        $application = new Application();
+        $em = $this->getDoctrine()->getManager();
+        $sensors = $em->getRepository(Sensor::class)->getSensorsBelongingTo($user);
+
+        $builder = $this->get('form.factory')->createBuilder(ApplicationType::class, $application, [
+            'sensors' => $sensors,
+        ]);
+        $form = $builder->getForm();
+        $status = $message = null;
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->persist($application);
+                $em->flush();
+                $message = 'Application added successfully';
+                $status = 'success';
+            }
+        }
+
+        $parameters = [
+            'form' => $form != null ? $form->createView() : null,
+            'message' => $message,
+            'status' => $status,
+            'form_title' => 'Add application',
+            'url' => $this->generateUrl('account_add_application'),
+        ];
+
+        return $parameters;
     }
 }
 
