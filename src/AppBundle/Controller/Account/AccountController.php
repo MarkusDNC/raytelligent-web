@@ -49,7 +49,9 @@ class AccountController extends Controller
      */
     public function accountDashboardAction(Request $request)
     {
-        return [];
+        return [
+            'user' => $this->getUser(),
+        ];
     }
 
     /**
