@@ -1,0 +1,36 @@
+{% extends ':account:base.html.twig' %}
+
+{% block body %}
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Sensors </h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {% if sensors is empty or sensors is null %}
+                <div class='text-center'><strong> No sensors found </strong> </div>
+            {% endif %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Sensor</th>
+                    <th>Remove sensor</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for sensor in sensors %}
+                <tr>
+                    <td>{{ sensor.id }}</td>
+                    <td class="text-center">
+                        <a id="remove-sensor" class="btn btn-warning btn-xs" href='{{ path('account_remove_sensor', {'id': sensor.id})}}'><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+
+

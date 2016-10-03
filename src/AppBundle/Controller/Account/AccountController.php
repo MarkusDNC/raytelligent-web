@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AccountController extends Controller
 {
@@ -67,6 +68,44 @@ class AccountController extends Controller
         ];
 
         return $parameters;
+    }
+
+    /**
+     * @Route("/account/sensors", name="account_sensors_view")
+     * @Template(":account/sensor:sensors.html.twig")
+     * @param Request $request
+     * @return array
+     */
+    public function listSensorsAction(Request $request)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $sensors = $em->getRepository(Sensor::class)->findBy([
+            'user' => $user,
+        ]);
+
+        return[
+            'sensors' => $sensors,
+        ];
+    }
+
+    /**
+     * @Route("/account/remove-sensor/{id}", name="account_remove_sensor")
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function removeSensorAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sensor = $em->getRepository(Sensor::class)->findOneBy([
+            'id' => $id,
+        ]);
+        if ($sensor !== null) {
+            $em->remove($sensor);
+            $em->flush();
+        }
+        return $this->redirectToRoute('account_sensors_view');
     }
 }
 
