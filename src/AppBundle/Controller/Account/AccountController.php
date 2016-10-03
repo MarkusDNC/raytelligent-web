@@ -17,7 +17,17 @@ class AccountController extends Controller
      */
     public function loginAction(Request $request)
     {
-        return [];
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return [
+            'lastUsername' => $lastUsername,
+            'error' => $error,
+        ];
     }
 
     /**
