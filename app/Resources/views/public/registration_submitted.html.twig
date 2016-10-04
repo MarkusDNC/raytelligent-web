@@ -2,14 +2,12 @@
 
 {% block bodyClass %}<body class="login">{% endblock %}
 {% block body %}
-<div style="text-align: center; padding-top: 50px">
+<div class="center-wrapper">
 
     <div class="headline">
-        <img src="{{ asset('assets/public/img/logo.png') }}" class="displayed" alt="Raytelligence Logo" width="250px" height="250px">
+        <img src="{{ asset('assets/public/img/logo.png') }}" id="logo-250" class="displayed" alt="Raytelligence Logo">
         <h1>Thank you for registering!</h1>
     </div>
-    <form action="/login">
-        <button type="submit" class="btn btn-success"/>Sign in</button>
-    </form>
+    <a class="btn btn-success" href="{{ path('account_login') }}">Sign in</a>
 </div>
 {% endblock %}
