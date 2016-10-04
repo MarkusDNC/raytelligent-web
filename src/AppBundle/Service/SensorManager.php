@@ -10,15 +10,41 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Application;
+use AppBundle\Enum\SensorUpdateAction;
+use Doctrine\ORM\EntityManager;
 
 class SensorManager
 {
 
-    public function updateSensors($sensors, Application $application)
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct(EntityManager $em)
     {
-        foreach ($sensors as $sensor) {
-            $sensor->setApplication($application);
+        $this->em = $em;
+    }
+
+    public function updateSensors($sensors, Application $application, $action)
+    {
+        switch ($action) {
+            case SensorUpdateAction::ACTION_ADD:
+                foreach ($sensors as $sensor) {
+                    $sensor->setApplication($application);
+                }
+                break;
+            case SensorUpdateAction::ACTION_REMOVE:
+                foreach ($sensors as $sensor) {
+                    $sensor->setApplication(null);
+                    $this->em->persist($sensor);
+                }
+                $this->em->flush();
+                break;
+            default:
+                break;
         }
+
     }
 
 }

@@ -10,3 +10,5 @@ services:
               - '@security.encoder_factory'
       rt.sensor.manager:
               class: AppBundle\Service\SensorManager
+              arguments:
+                - '@doctrine.orm.entity_manager'

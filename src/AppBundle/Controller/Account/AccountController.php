@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\Application;
 use AppBundle\Entity\Sensor;
+use AppBundle\Enum\SensorUpdateAction;
 use AppBundle\Form\ApplicationType;
 use AppBundle\Form\SensorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -121,8 +122,10 @@ class AccountController extends Controller
             'id' => $id,
         ]);
         if ($sensor !== null) {
-            $em->remove($sensor);
-            $em->flush();
+            if ($sensor->getApplication() !== null) {
+                $em->remove($sensor);
+                $em->flush();
+            }
         }
         return $this->redirectToRoute('account_sensors_view');
     }
@@ -150,7 +153,7 @@ class AccountController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $sensors = $application->getSensors();
-                $sm->updateSensors($sensors, $application);
+                $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_ADD);
                 $em->persist($application);
                 $em->flush();
                 $message = 'Application added successfully';
@@ -194,10 +197,13 @@ class AccountController extends Controller
     public function removeApplicationAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $sm = $this->get('rt.sensor.manager');
         $application = $em->getRepository(Application::class)->findOneBy([
             'id' => $id,
         ]);
         if ($application !== null) {
+            $sensors = $application->getSensors();
+            $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_REMOVE);
             $em->remove($application);
             $em->flush();
         }

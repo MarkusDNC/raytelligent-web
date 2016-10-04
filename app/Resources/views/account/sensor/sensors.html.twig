@@ -23,9 +23,15 @@
                 <tr>
                     <td>{{ sensor.id }}</td>
                     <td>{{ sensor.name }}</td>
+                    {% if sensor.application is null %}
                     <td class="text-center">
                         <a id="remove-sensor" class="btn btn-warning btn-xs" href='{{ path('account_remove_sensor', {'id': sensor.id})}}'><i class="fa fa-trash"></i></a>
                     </td>
+                    {% else %}
+                        <td class="text-center">
+                           Your sensor is currently used in an application.
+                        </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 </tbody>
