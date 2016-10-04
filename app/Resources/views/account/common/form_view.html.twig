@@ -20,8 +20,13 @@
                 {{form(form)}}
             {% endif %}
         </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+        {% if status != 'success' and form is not null%}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        {% endif %}
     </div>
 </div>
-{{ form_end(form) }}
+    {% if status != 'success' and form is not null%}
+        {{form_end(form)}}
+    {% endif %}
+
 {% endblock %}
