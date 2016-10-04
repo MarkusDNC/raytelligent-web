@@ -1,35 +1,15 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-.elevation-container {
-  position: relative;
-  margin: 0 auto;
-  background-color: white;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  padding: 45px;
-  max-width: 80%; }
+.center-wrapper {
+  text-align: center;
+  padding-top: 50px;
+}
 
-input, select {
-  font-weight: 100 !important;
-  background: #f2f2f2 !important;
-  width: 100% !important;
-  border: 0 !important;
-  margin: 0 0 15px !important;
-  font-size: 14px !important; }
+#logo-250 {
+  width: 250px;
+  height: 250px;
+}
 
-#register-button {
-  font-size: 14px;
-  position: relative;
-  background: #4CAF50;
-  border: none;
-  border-radius: 0;
-  color: white;
-  width: 200px;
-  height: 50px;
-  float: right; }
-
-body {
-  background: #D9EDF7;
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-/*# sourceMappingURL=rt.css.map */
+img.displayed {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
