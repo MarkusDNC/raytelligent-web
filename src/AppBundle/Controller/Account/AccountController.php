@@ -49,7 +49,10 @@ class AccountController extends Controller
      */
     public function accountDashboardAction(Request $request)
     {
-        return [];
+        $user = $this->getUser();
+        return [
+            'user' => $user,
+        ];
     }
 
     /**
