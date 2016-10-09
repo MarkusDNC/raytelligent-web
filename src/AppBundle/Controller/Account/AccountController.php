@@ -50,8 +50,13 @@ class AccountController extends Controller
      */
     public function accountDashboardAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $sensors = $em->getRepository(Sensor::class)->getSensorsBelongingTo($user);
+        $applications = $em->getRepository(Application::class)->getApplicationsBelongingTo($user);
         return [
-            'user' => $this->getUser(),
+            'sensors' => $sensors,
+            'applications' => $applications,
         ];
     }
 
