@@ -24,10 +24,11 @@ class RegistrationController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $this->get('rt.aws.manager')->launchNewInstance('Dummy', $user);
                 $userManager->updatePassword($user);
                 $entityManager->persist($user);
                 $entityManager->flush();
-                
+
                 return $this->redirectToRoute('registration_submitted');
             }
         }

@@ -78,3 +78,12 @@ vich_uploader:
       application_code:
         uri_prefix: /temp/applications
         upload_destination: %kernel.root_dir%/../web/temp/applications
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+      key: '%aws_key%'
+      secret: '%aws_secret%'
+
+

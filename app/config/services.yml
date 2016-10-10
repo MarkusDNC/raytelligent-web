@@ -2,7 +2,7 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-
+    image_id: 'ami-6d1c2007'
 services:
       rt.user.manager:
           class: AppBundle\Service\UserManager
@@ -12,3 +12,10 @@ services:
               class: AppBundle\Service\SensorManager
               arguments:
                 - '@doctrine.orm.entity_manager'
+      rt.aws.manager:
+                class: AppBundle\Service\AWSManager
+                arguments:
+                  - '@aws.ec2'
+                  - image_id
+                  - 't2.micro'
+                  - '@event_dispatcher'
