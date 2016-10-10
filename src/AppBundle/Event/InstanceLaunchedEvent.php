@@ -8,8 +8,38 @@
 
 namespace AppBundle\Event;
 
+use AppBundle\Entity\User;
+use Aws\Result;
+use Symfony\Component\EventDispatcher\Event;
 
-class InstanceLaunchedEvent
+class InstanceLaunchedEvent extends Event
 {
+    const NAME = 'rt.instance.launched';
+
+    /**
+     * @var Result
+     */
+    private $result;
+
+    /**
+     * @var User
+     */
+    private $user;
+
+
+    public function __construct(Result $result, User $user)
+    {
+        $this->result = $result;
+    }
+
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
 
 }

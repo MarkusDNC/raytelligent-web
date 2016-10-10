@@ -2,20 +2,30 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-    image_id: 'ami-6d1c2007'
+
 services:
       rt.user.manager:
           class: AppBundle\Service\UserManager
           arguments:
               - '@security.encoder_factory'
+
       rt.sensor.manager:
+
               class: AppBundle\Service\SensorManager
               arguments:
                 - '@doctrine.orm.entity_manager'
+
       rt.aws.manager:
                 class: AppBundle\Service\AWSManager
                 arguments:
                   - '@aws.ec2'
-                  - image_id
+                  - 'ami-6d1c2007'
                   - 't2.micro'
                   - '@event_dispatcher'
+
+      rt.subscriber.persist_instance:
+                 class: AppBundle\EventListener\PersistInstanceInfoListener
+                 arguments:
+                    - '@doctrine.orm.entity_manager'
+                 tags:
+                    - { name: kernel.event_subscriber }

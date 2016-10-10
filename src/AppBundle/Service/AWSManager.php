@@ -47,15 +47,15 @@ class AWSManager
     public function launchNewInstance($instanceName, User $user)
     {
         $result = $this->ec2Client->runInstances([
-            'ImageId' => $this->imageId,
-            'InstanceType' => $this->instanceType,
+            'ImageId' => 'ami-6d1c2007',
+            'InstanceType' => 't2.micro',
             'MaxCount' => 1,
             'MinCount' => 1,
         ]);
 
         // TODO: Handle potential failures
         $instanceLaunchedEvent = new InstanceLaunchedEvent($result, $user);
-        $this->eventDispatcher->dispatch($instanceLaunchedEvent);
+        $this->eventDispatcher->dispatch(InstanceLaunchedEvent::NAME, $instanceLaunchedEvent);
 
         return true;
     }
