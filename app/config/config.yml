@@ -78,13 +78,3 @@ vich_uploader:
       application_code:
         uri_prefix: /application_uploads
         upload_destination: %kernel.root_dir%/../application_uploads
-
-aws:
-    version: latest
-    region: us-east-1
-    credentials:
-      key: '%aws_key%'
-      secret: '%aws_secret%'
-
-
->>>>>>> Stashed changes
