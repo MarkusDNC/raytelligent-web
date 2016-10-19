@@ -76,5 +76,15 @@ vich_uploader:
     db_driver: orm
     mappings:
       application_code:
-        uri_prefix: /temp/applications
-        upload_destination: %kernel.root_dir%/../web/temp/applications
+        uri_prefix: /application_uploads
+        upload_destination: %kernel.root_dir%/../application_uploads
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+      key: '%aws_key%'
+      secret: '%aws_secret%'
+
+
+>>>>>>> Stashed changes
