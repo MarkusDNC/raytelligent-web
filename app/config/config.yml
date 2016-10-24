@@ -77,4 +77,5 @@ vich_uploader:
     mappings:
       application_code:
         uri_prefix: /application_uploads
+        namer: vich_uploader.namer_origname
         upload_destination: %kernel.root_dir%/../application_uploads

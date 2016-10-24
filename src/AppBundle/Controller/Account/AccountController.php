@@ -163,6 +163,7 @@ class AccountController extends Controller
                 $em->flush();
                 $message = 'Application added successfully';
                 $status = 'success';
+                $this->get('rt.communication.manager')->sendApplicationData($application);
             }
         }
 
