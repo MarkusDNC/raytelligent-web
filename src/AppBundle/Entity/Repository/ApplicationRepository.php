@@ -22,4 +22,15 @@ class ApplicationRepository extends EntityRepository
             ->setParameter('user', $user);
         return $qb->getQuery()->getResult();
     }
+
+    public function getApplicationCountBelongingTo(User $user)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->select('count(a)')
+            ->innerJoin('a.sensors', 's')
+            ->where('s.user = :user')
+            ->setParameter('user', $user);
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }

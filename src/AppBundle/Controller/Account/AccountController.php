@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\Application;
 use AppBundle\Entity\AWSInstance;
+use AppBundle\Entity\Generator\PortGenerator;
 use AppBundle\Entity\Sensor;
 use AppBundle\Enum\SensorUpdateAction;
 use AppBundle\Form\ApplicationType;
@@ -145,6 +146,7 @@ class AccountController extends Controller
      */
     public function addApplicationAction(Request $request)
     {
+        $portGenerator = new PortGenerator();
         $user = $this->getUser();
         $application = new Application();
         $em = $this->getDoctrine()->getManager();
@@ -158,6 +160,8 @@ class AccountController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                $port = $portGenerator->generate($em, $application);
+                $application->setPort($port);
                 $sensors = $application->getSensors();
                 $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_ADD);
                 $em->persist($application);

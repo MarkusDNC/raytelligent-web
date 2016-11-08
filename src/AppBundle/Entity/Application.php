@@ -63,6 +63,12 @@ class Application
     private $fileName;
 
     /**
+     * @var integer
+     * @ORM\Column(name="port", type="integer")
+     */
+    private $port;
+
+    /**
      * Application constructor.
      */
     public function __construct()
@@ -173,6 +179,24 @@ class Application
     {
         $this->fileName = $fileName;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * @param int $port
+     * @return $this
+     */
+    public function setPort($port)
+    {
+        $this->port = $port;
         return $this;
     }
 
