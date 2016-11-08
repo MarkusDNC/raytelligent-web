@@ -160,10 +160,17 @@ class AccountController extends Controller
                 $sensors = $application->getSensors();
                 $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_ADD);
                 $em->persist($application);
-                $em->flush();
-                $message = 'Application added successfully';
-                $status = 'success';
-                $this->get('rt.communication.manager')->sendApplicationData($application);
+                $reply = $this->get('rt.communication.manager')->sendApplicationData($application);
+                if ($reply->status != 0) {
+                    $em->remove($application);
+                    $message = "There was an error adding the application: " . $reply->message;
+                    $status = 'error';
+                } else {
+                    $em->flush();
+                    $message = 'Application added successfully';
+                    $status = 'success';
+                }
+
             }
         }
 

@@ -10,6 +10,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Application;
+use AppBundle\Enum\MessageSubjectType;
 
 class CommunicationManager
 {
@@ -18,9 +19,13 @@ class CommunicationManager
      */
     private $queue;
 
+    private $identity;
+
     public function __construct($ipcEndpoint)
     {
+        $this->identity = openssl_random_pseudo_bytes(16);
         $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ, "test-socket");
+        $this->queue->setSockOpt(\ZMQ::SOCKOPT_IDENTITY, $this->identity);
         $this->queue->connect($ipcEndpoint);
     }
 
@@ -30,13 +35,16 @@ class CommunicationManager
         $sensors = $application->getSensors();
         $fileName = $application->getFileName();
 
-        $data['file-name'] = $fileName;
+        $data['subject'] = MessageSubjectType::TYPE_NEW_APPLICATION;
+        $data['sender-id'] = $this->identity;
+        $data['application-path'] = $fileName;
+        $data['user-endpoint'] = ''; // TODO: Get user endpoint
 
         foreach ($sensors as $sensor) {
-            $data['sensors'][] = $sensor->getId();
+            $data['uuids'][] = $sensor->getId();
         }
 
         $jsonData = json_encode($data);
-        return $this->queue->send($jsonData)->recv();
+        return json_decode($this->queue->send($jsonData)->recv());
     }
 }
