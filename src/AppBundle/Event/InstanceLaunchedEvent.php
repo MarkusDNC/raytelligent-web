@@ -30,6 +30,7 @@ class InstanceLaunchedEvent extends Event
     public function __construct(Result $result, User $user)
     {
         $this->result = $result;
+        $this->user = $user;
     }
 
     public function getResult()

@@ -15,10 +15,6 @@ services:
               class: AppBundle\Service\SensorManager
               arguments:
                 - '@doctrine.orm.entity_manager'
-      rt.communication.manager:
-                class: AppBundle\Service\CommunicationManager
-                arguments:
-                  - '%ipc_endpoint%'
 
       rt.aws.manager:
                 class: AppBundle\Service\AWSManager
@@ -34,3 +30,10 @@ services:
                     - '@doctrine.orm.entity_manager'
                  tags:
                     - { name: kernel.event_subscriber }
+
+      rt.communication.manager:
+                class: AppBundle\Service\CommunicationManager
+                arguments:
+                    - '%ipc_endpoint%'
+                    - '@rt.aws.manager'
+

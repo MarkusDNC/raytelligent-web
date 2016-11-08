@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Account;
 
 use AppBundle\Entity\Application;
+use AppBundle\Entity\AWSInstance;
 use AppBundle\Entity\Sensor;
 use AppBundle\Enum\SensorUpdateAction;
 use AppBundle\Form\ApplicationType;
@@ -160,8 +161,9 @@ class AccountController extends Controller
                 $sensors = $application->getSensors();
                 $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_ADD);
                 $em->persist($application);
-                $reply = $this->get('rt.communication.manager')->sendApplicationData($application);
-                if ($reply->status != 0) {
+                $awsInstance = $em->getRepository(AWSInstance::class)->findOneBy(['user' => $user]);
+                $reply = $this->get('rt.communication.manager')->sendApplicationData($application, $awsInstance);
+                if ($reply != "App added") {
                     $em->remove($application);
                     $message = "There was an error adding the application: " . $reply->message;
                     $status = 'error';

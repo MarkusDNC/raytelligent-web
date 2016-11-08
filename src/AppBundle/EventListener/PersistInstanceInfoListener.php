@@ -38,6 +38,7 @@ class PersistInstanceInfoListener implements EventSubscriberInterface
         $user = $instanceLaunchedEvent->getUser();
         $result = $instanceLaunchedEvent->getResult();
         $instances = $result->get('Instances');
+        dump($instances);
         $instance = new AWSInstance();
         $instance->setInstanceId($instances[0]['InstanceId'])
                 ->setReservationId($result->get('ReservationId'))

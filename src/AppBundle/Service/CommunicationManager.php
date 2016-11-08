@@ -10,7 +10,9 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Entity\Application;
+use AppBundle\Entity\AWSInstance;
 use AppBundle\Enum\MessageSubjectType;
+use Doctrine\ORM\EntityManager;
 
 class CommunicationManager
 {
@@ -19,32 +21,54 @@ class CommunicationManager
      */
     private $queue;
 
+    /**
+     * @var string
+     */
     private $identity;
 
-    public function __construct($ipcEndpoint)
+    /*
+     * @var AWSManager
+     */
+    private $awsm;
+
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct($ipcEndpoint, AWSManager $awsManager, EntityManager $em)
     {
-        $this->identity = openssl_random_pseudo_bytes(16);
-        $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ, "test-socket");
+        $this->identity = uniqid();
+        $this->awsm = $awsManager;
+        $this->em = $em;
+        $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ);
         $this->queue->setSockOpt(\ZMQ::SOCKOPT_IDENTITY, $this->identity);
-        $this->queue->connect($ipcEndpoint);
+        $this->queue->connect("tcp://192.168.1.110:5555");
     }
 
-    public function sendApplicationData(Application $application)
+    public function sendApplicationData(Application $application, AWSInstance $awsInstance)
     {
         $data = [];
         $sensors = $application->getSensors();
         $fileName = $application->getFileName();
+        $userEndpoint = $awsInstance->getPublicDns();
+        if($userEndpoint == null) {
+            $userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
+            $awsInstance->setPublicDns($userEndpoint);
+            $this->em->persist($awsInstance);
+            $this->em->flush();
+        }
 
         $data['subject'] = MessageSubjectType::TYPE_NEW_APPLICATION;
-        $data['sender-id'] = $this->identity;
+        $data['sender-id'] = (string)$this->identity;
         $data['application-path'] = $fileName;
-        $data['user-endpoint'] = ''; // TODO: Get user endpoint
+        $data['user-endpoint'] = $userEndpoint;
 
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
         }
 
         $jsonData = json_encode($data);
-        return json_decode($this->queue->send($jsonData)->recv());
+        return $this->queue->send($jsonData)->recv();
     }
 }

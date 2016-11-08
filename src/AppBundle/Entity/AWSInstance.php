@@ -59,6 +59,13 @@ class AWSInstance
     private $user;
 
     /**
+     * @ORM\Column(name="public_dns", type="string", nullable=true)
+     *
+     * @var string
+     */
+    private $publicDns;
+
+    /**
      * @return int
      */
     public function getId()
@@ -152,5 +159,26 @@ class AWSInstance
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getPublicDns()
+    {
+        return $this->publicDns;
+    }
+
+    /**
+     * @param string $publicDns
+     * @return AWSInstance
+     */
+    public function setPublicDns($publicDns)
+    {
+        $this->publicDns = $publicDns;
+
+        return $this;
+    }
+
+
 
 }
