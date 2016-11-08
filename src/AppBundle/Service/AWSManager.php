@@ -60,4 +60,15 @@ class AWSManager
         return true;
     }
 
+    public function getEndpoint($instanceId)
+    {
+        $result = $this->ec2Client->describeInstances([
+            'InstanceIds' => [
+                $instanceId,
+            ],
+        ]);
+
+        return $result["Reservations"][0]["Instances"][0]["PublicDnsName"];
+    }
+
 }
