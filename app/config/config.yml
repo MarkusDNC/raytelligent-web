@@ -78,7 +78,8 @@ vich_uploader:
       application_code:
         uri_prefix: /application_uploads
         namer: vich_uploader.namer_origname
-        upload_destination: %kernel.root_dir%/../application_uploads
+        upload_destination: %kernel.root_dir%/application_uploads
+        directory_namer: rt.application_upload.directory.namer
 
 aws:
     version: latest

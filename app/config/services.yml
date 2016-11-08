@@ -38,3 +38,8 @@ services:
                     - '@rt.aws.manager'
                     - '@doctrine.orm.entity_manager'
 
+      rt.application_upload.directory.namer:
+                class: AppBundle\Service\ApplicationDirectoryNamer
+
+      rt.application_upload.namer:
+                class: AppBundle\Service\ApplicationUploadNamer

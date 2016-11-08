@@ -50,24 +50,25 @@ class CommunicationManager
     {
         $data = [];
         $sensors = $application->getSensors();
-        $fileName = $application->getFileName();
         $userEndpoint = $awsInstance->getPublicDns();
         if($userEndpoint == null) {
-            $userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
+            /*$userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
             $awsInstance->setPublicDns($userEndpoint);
             $this->em->persist($awsInstance);
-            $this->em->flush();
+            $this->em->flush();*/
+            $userEndpoint = "192.168.1.120:5556";
         }
 
         $data['subject'] = MessageSubjectType::TYPE_NEW_APPLICATION;
         $data['sender-id'] = (string)$this->identity;
-        $data['application-path'] = $fileName;
+        $data['application-path'] = $application->getCode()->getPathname();
         $data['user-endpoint'] = $userEndpoint;
 
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
         }
-
+        dump($application);
+        exit;
         $jsonData = json_encode($data);
         return $this->queue->send($jsonData)->recv();
     }

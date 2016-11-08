@@ -22,4 +22,5 @@ Homestead.yaml
 /web/temp
 /web/css
 /web/js
+/app/application_uploads
 /application_uploads
