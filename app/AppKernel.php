@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new \Aws\Symfony\AwsBundle(),
             new AppBundle\AppBundle(),
         ];
 

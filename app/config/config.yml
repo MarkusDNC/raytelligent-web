@@ -79,3 +79,10 @@ vich_uploader:
         uri_prefix: /application_uploads
         namer: vich_uploader.namer_origname
         upload_destination: %kernel.root_dir%/../application_uploads
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+      key: '%aws_key%'
+      secret: '%aws_secret%'

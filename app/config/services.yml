@@ -9,7 +9,9 @@ services:
           class: AppBundle\Service\UserManager
           arguments:
               - '@security.encoder_factory'
+
       rt.sensor.manager:
+
               class: AppBundle\Service\SensorManager
               arguments:
                 - '@doctrine.orm.entity_manager'
@@ -17,3 +19,18 @@ services:
                 class: AppBundle\Service\CommunicationManager
                 arguments:
                   - '%ipc_endpoint%'
+
+      rt.aws.manager:
+                class: AppBundle\Service\AWSManager
+                arguments:
+                  - '@aws.ec2'
+                  - 'ami-6d1c2007'
+                  - 't2.micro'
+                  - '@event_dispatcher'
+
+      rt.subscriber.persist_instance:
+                 class: AppBundle\EventListener\PersistInstanceInfoListener
+                 arguments:
+                    - '@doctrine.orm.entity_manager'
+                 tags:
+                    - { name: kernel.event_subscriber }

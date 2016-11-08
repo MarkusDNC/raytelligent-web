@@ -27,7 +27,8 @@ class RegistrationController extends Controller
                 $userManager->updatePassword($user);
                 $entityManager->persist($user);
                 $entityManager->flush();
-                
+                $this->get('rt.aws.manager')->launchNewInstance('Dummy', $user);
+
                 return $this->redirectToRoute('registration_submitted');
             }
         }
