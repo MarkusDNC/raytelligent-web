@@ -52,11 +52,10 @@ class CommunicationManager
         $sensors = $application->getSensors();
         $userEndpoint = $awsInstance->getPublicDns();
         if($userEndpoint == null) {
-            /*$userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
+            $userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
             $awsInstance->setPublicDns($userEndpoint);
             $this->em->persist($awsInstance);
-            $this->em->flush();*/
-            $userEndpoint = "192.168.1.120:5556";
+            $this->em->flush();
         }
 
         $data['subject'] = MessageSubjectType::TYPE_NEW_APPLICATION;
@@ -67,9 +66,9 @@ class CommunicationManager
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
         }
-        dump($application);
-        exit;
+
         $jsonData = json_encode($data);
+
         return $this->queue->send($jsonData)->recv();
     }
 }
