@@ -62,6 +62,7 @@ class CommunicationManager
         $data['sender-id'] = (string)$this->identity;
         $data['application-path'] = $application->getCode()->getPathname();
         $data['user-endpoint'] = $userEndpoint;
+        $data['application-port'] = $application->getPort();
 
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
