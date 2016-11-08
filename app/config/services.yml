@@ -36,4 +36,5 @@ services:
                 arguments:
                     - '%ipc_endpoint%'
                     - '@rt.aws.manager'
+                    - '@doctrine.orm.entity_manager'
 
