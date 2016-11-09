@@ -50,10 +50,12 @@ class CommunicationManager
     {
         $data = [];
         $sensors = $application->getSensors();
-        $userEndpoint = $awsInstance->getPublicDns();
-        if($userEndpoint == null) {
-            $userEndpoint = $this->awsm->getEndpoint($awsInstance->getInstanceId());
-            $awsInstance->setPublicDns($userEndpoint);
+        $userServerIp = $awsInstance->getPublicIp();
+        if($userServerIp == null) {
+            $userServerDnsAndIp= $this->awsm->getPublicDnsAndIp($awsInstance->getInstanceId());
+            $awsInstance->setPublicDns($userServerDnsAndIp->getDns());
+            $awsInstance->setPublicIp($userServerDnsAndIp->getIp());
+            $userServerIp = $userServerDnsAndIp->getIp();
             $this->em->persist($awsInstance);
             $this->em->flush();
         }
@@ -61,7 +63,7 @@ class CommunicationManager
         $data['subject'] = MessageSubjectType::TYPE_NEW_APPLICATION;
         $data['sender-id'] = (string)$this->identity;
         $data['application-path'] = $application->getCode()->getPathname();
-        $data['user-endpoint'] = $userEndpoint;
+        $data['user-server-ip'] = $userServerIp;
         $data['application-port'] = $application->getPort();
 
         foreach ($sensors as $sensor) {
@@ -69,7 +71,26 @@ class CommunicationManager
         }
 
         $jsonData = json_encode($data);
-
         return $this->queue->send($jsonData)->recv();
+    }
+
+    public function deleteApplication(Application $application, AWSInstance $awsInstance)
+    {
+        $data = [];
+        $sensors = $application->getSensors();
+        $userServerIp = $awsInstance->getPublicIp();
+
+        $data['subject'] = MessageSubjectType::TYPE_DELETE_APPLICATION;
+        $data['sender-id'] = (string)$this->identity;
+        $data['user-server-ip'] = $userServerIp;
+        $data['application-port'] = $application->getPort();
+
+        foreach ($sensors as $sensor) {
+            $data['uuids'][] = $sensor->getId();
+        }
+
+        $jsonData = json_encode($data);
+        return $this->queue->send($jsonData)->recv();
+
     }
 }

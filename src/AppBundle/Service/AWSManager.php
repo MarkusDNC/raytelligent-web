@@ -9,6 +9,7 @@
 namespace AppBundle\Service;
 
 
+use AppBundle\DTO\PublicDnsAndIpDto;
 use AppBundle\Entity\User;
 use AppBundle\Event\InstanceLaunchedEvent;
 use Aws\Ec2\Ec2Client;
@@ -60,15 +61,20 @@ class AWSManager
         return true;
     }
 
-    public function getEndpoint($instanceId)
+    public function getPublicDnsAndIp($instanceId) : PublicDnsAndIpDto
     {
+        $publicDnsAndIpDto = new PublicDnsAndIpDto();
         $result = $this->ec2Client->describeInstances([
             'InstanceIds' => [
                 $instanceId,
             ],
         ]);
 
-        return $result["Reservations"][0]["Instances"][0]["PublicDnsName"];
+        $publicDnsAndIpDto
+            ->setDns($result["Reservations"][0]["Instances"][0]["PublicDnsName"])
+            ->setIp($result["Reservations"][0]["Instances"][0]["PublicIpAddress"]);
+
+        return $publicDnsAndIpDto;
     }
 
 }

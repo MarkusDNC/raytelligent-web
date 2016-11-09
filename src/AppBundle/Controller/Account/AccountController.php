@@ -30,7 +30,6 @@ class AccountController extends Controller
         }
 
         $authenticationUtils = $this->get('security.authentication_utils');
-        $this->get('rt.aws.manager')->getEndpoint("i-0b562f518360435a1");
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -217,10 +216,13 @@ class AccountController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $sm = $this->get('rt.sensor.manager');
+        $user = $this->getUser();
         $application = $em->getRepository(Application::class)->findOneBy([
             'id' => $id,
         ]);
         if ($application !== null) {
+            $awsInstance = $em->getRepository(AWSInstance::class)->findOneBy(['user' => $user]);
+            $this->get('rt.communication.manager')->deleteApplication($application, $awsInstance);
             $sensors = $application->getSensors();
             $sm->updateSensors($sensors, $application, SensorUpdateAction::ACTION_REMOVE);
             $em->remove($application);

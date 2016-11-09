@@ -66,6 +66,13 @@ class AWSInstance
     private $publicDns;
 
     /**
+     * @ORM\Column(name="public_ip", type="string", nullable=true)
+     *
+     * @var string
+     */
+    private $publicIp;
+
+    /**
      * @return int
      */
     public function getId()
@@ -178,6 +185,26 @@ class AWSInstance
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getPublicIp()
+    {
+        return $this->publicIp;
+    }
+
+    /**
+     * @param string $publicIp
+     * @return AWSInstance
+     */
+    public function setPublicIp(string $publicIp): AWSInstance
+    {
+        $this->publicIp = $publicIp;
+
+        return $this;
+    }
+
 
 
 

@@ -13,5 +13,6 @@ class MessageSubjectType
 {
 
     const TYPE_NEW_APPLICATION = "new app";
+    const TYPE_DELETE_APPLICATION = "delete app";
 
 }
