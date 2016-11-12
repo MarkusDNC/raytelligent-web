@@ -43,7 +43,7 @@ class CommunicationManager
         $this->em = $em;
         $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ);
         $this->queue->setSockOpt(\ZMQ::SOCKOPT_IDENTITY, $this->identity);
-        $this->queue->connect("tcp://192.168.1.110:5555");
+        $this->queue->connect("inproc://inproc-pipe.pipe");
     }
 
     public function sendApplicationData(Application $application, AWSInstance $awsInstance)
@@ -65,7 +65,7 @@ class CommunicationManager
         $data['application-path'] = $application->getCode()->getPathname();
         $data['user-server-ip'] = $userServerIp;
         $data['application-port'] = $application->getPort();
-
+        $data['instance-id'] = $awsInstance->getInstanceId();
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
         }
