@@ -43,7 +43,7 @@ class CommunicationManager
         $this->em = $em;
         $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ);
         $this->queue->setSockOpt(\ZMQ::SOCKOPT_IDENTITY, $this->identity);
-        $this->queue->connect("inproc:///var/inproc-pipe.pipe");
+        $this->queue->connect("tcp://localhost:5555");
     }
 
     public function sendApplicationData(Application $application, AWSInstance $awsInstance)
