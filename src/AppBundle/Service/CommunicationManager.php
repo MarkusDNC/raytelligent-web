@@ -84,6 +84,7 @@ class CommunicationManager
         $data['sender-id'] = (string)$this->identity;
         $data['user-server-ip'] = $userServerIp;
         $data['application-port'] = $application->getPort();
+        $data['instance-id'] = $awsInstance->getInstanceId();
 
         foreach ($sensors as $sensor) {
             $data['uuids'][] = $sensor->getId();
