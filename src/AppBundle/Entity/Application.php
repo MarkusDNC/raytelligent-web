@@ -51,7 +51,6 @@ class Application
      * @var File
      * @Vich\UploadableField(mapping="application_code", fileNameProperty="fileName")
      * @Assert\NotBlank(message="Field can not be left blank")
-     * @Assert\File(mimeTypes={"application/zip"})
      */
     private $code;
 
