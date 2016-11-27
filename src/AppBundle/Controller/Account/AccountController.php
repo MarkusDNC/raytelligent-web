@@ -166,7 +166,6 @@ class AccountController extends Controller
                 $em->persist($application);
                 $awsInstance = $em->getRepository(AWSInstance::class)->findOneBy(['user' => $user]);
                 $reply = $this->get('rt.communication.manager')->sendApplicationData($application, $awsInstance);
-                var_dump($reply["success"]);
                 if ($reply["success"] == false) {
                     $em->remove($application);
                     $message = "There was an error adding the application: " . $reply["build-result"];
