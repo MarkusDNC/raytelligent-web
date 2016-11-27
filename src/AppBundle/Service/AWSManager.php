@@ -48,11 +48,12 @@ class AWSManager
     public function launchNewInstance($instanceName, User $user)
     {
         $result = $this->ec2Client->runInstances([
-            'ImageId' => 'ami-04f2c013',
+            'ImageId' => 'ami-084a761f',
+            'KeyName' => 'amazon-centos',
             'InstanceType' => 't2.micro',
             'MaxCount' => 1,
             'MinCount' => 1,
-            'SecurityGroupId.N' => 'sg-0073eb7d',
+            'SecurityGroupIds' => ['sg-0073eb7d'],
         ]);
 
         // TODO: Handle potential failures
