@@ -52,6 +52,7 @@ class AWSManager
             'InstanceType' => 't2.micro',
             'MaxCount' => 1,
             'MinCount' => 1,
+            'SecurityGroupId.N' => 'sg-0073eb7d',
         ]);
 
         // TODO: Handle potential failures
