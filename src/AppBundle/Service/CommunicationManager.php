@@ -71,7 +71,7 @@ class CommunicationManager
         }
 
         $jsonData = json_encode($data);
-        return ($this->queue->send($jsonData)->recv());
+        return json_encode($this->queue->send($jsonData)->recv());
     }
 
     public function deleteApplication(Application $application, AWSInstance $awsInstance)
