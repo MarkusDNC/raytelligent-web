@@ -91,7 +91,7 @@ class CommunicationManager
         }
 
         $jsonData = json_encode($data);
-        return json_encode($this->queue->send($jsonData)->recv());
+        return json_decode($this->queue->send($jsonData)->recv());
 
     }
 }
