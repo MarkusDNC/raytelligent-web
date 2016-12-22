@@ -128,7 +128,7 @@ class AccountController extends Controller
             'id' => $id,
         ]);
         if ($sensor !== null) {
-            if ($sensor->getApplication() !== null) {
+            if ($sensor->getApplication() == null) {
                 $em->remove($sensor);
                 $em->flush();
             }
