@@ -43,6 +43,7 @@ class CommunicationManager
         $this->em = $em;
         $this->queue = new \ZMQSocket(new \ZMQContext(), \ZMQ::SOCKET_REQ);
         $this->queue->setSockOpt(\ZMQ::SOCKOPT_IDENTITY, $this->identity);
+        $this->queue->setSockOpt(\ZMQ::SOCKOPT_RCVTIMEO, 20000);
         $this->queue->connect("tcp://localhost:4441");
     }
 
